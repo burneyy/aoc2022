@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class RockPaperScissors:
     def __init__(self, shape: str):
         if shape == "A" or shape == "X":
@@ -14,20 +15,18 @@ class RockPaperScissors:
 
     @classmethod
     def create_from_condition(cls, other, condition):
-        if condition == "X": # lose
+        if condition == "X":  # lose
             result = 2
-        elif condition == "Y": # draw
+        elif condition == "Y":  # draw
             result = 0
-        elif condition == "Z": # win
+        elif condition == "Z":  # win
             result = 1
         else:
             raise ValueError()
 
-        value = (other.get_value()-1+result)%3
+        value = (other.get_value()-1+result) % 3
 
         return cls("ABC"[value])
-
-
 
     def get_shape(self):
         return self.shape
@@ -38,11 +37,11 @@ class RockPaperScissors:
     def get_score_against(self, other):
         result = (self.value - other.get_value()) % 3
         if result == 0:
-            return 3 # draw
+            return 3  # draw
         elif result == 1:
-            return 6 # win
+            return 6  # win
         elif result == 2:
-            return 0 # lose
+            return 0  # lose
 
 
 # Part 1
@@ -63,10 +62,12 @@ def calculate_round_score(strategy: str, part_two: bool = False) -> int:
 
     return you.get_value() + you.get_score_against(opp)
 
+
 def test_calculate_round_score_part_one():
     assert calculate_round_score("A Y") == 8
     assert calculate_round_score("B X") == 1
     assert calculate_round_score("C Z") == 6
+
 
 def test_calculate_round_score_part_two():
     assert calculate_round_score("A Y", part_two=True) == 4
@@ -75,23 +76,23 @@ def test_calculate_round_score_part_two():
 
 
 def calculate_total_score(strategy_list, part_two=False):
-    scores = [ calculate_round_score(strategy, part_two) for strategy in strategy_list ]
+    scores = [calculate_round_score(strategy, part_two) for strategy in strategy_list]
     return np.sum(scores)
 
+
 def test_calculate_total_score():
-    strategy_list = ["A Y", "B X", "C Z"]
-    assert calculate_total_score(strategy_list) == 15
+    test_list = ["A Y", "B X", "C Z"]
+    assert calculate_total_score(test_list) == 15
+
 
 def test_calculate_total_score_part_two():
-    strategy_list = ["A Y", "B X", "C Z"]
-    assert calculate_total_score(strategy_list, part_two=True) == 12
+    test_list = ["A Y", "B X", "C Z"]
+    assert calculate_total_score(test_list, part_two=True) == 12
 
 
-strategy_list = read_strategy_from_file("input.txt")
-print(f"Expected total score (part 1): {calculate_total_score(strategy_list)}")
+input_list = read_strategy_from_file("input.txt")
+print(f"Expected total score (part 1): {calculate_total_score(input_list)}")
 
 
 # Part 2
-print(f"Expected total score (part 2): {calculate_total_score(strategy_list, True)}")
-
-
+print(f"Expected total score (part 2): {calculate_total_score(input_list, True)}")
